@@ -19,14 +19,11 @@
 - user login api with jwt authentication, checks for existing user, password check and jwt verification
 - user profile view api so user can view their details
 - user profile update api so user can update their profile along with profile image update
-- base url: http://localhost:3000/api/v1/user/
 
 ### Category
 - get all category api to fetch all the categories from the database
-- get question based on respective categories, questions having multiple categories is handled
-- base url: http://localhost:3000/api/v1/category/
+- get question based on respective categories, questions having multiple categories is handled=
 
 ### Question
 - bulk upload questions api to import questions in bulk from csv file into the database
 - sample csv file provided
-- base url: http://localhost:3000/api/v1/question/
