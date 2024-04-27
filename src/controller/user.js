@@ -14,12 +14,13 @@ const responseService = new ResponseService();
 
 const create = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, isAdmin } = req.body;
+    const { firstName, lastName, email, password, isAdmin, userImage } =
+      req.body;
 
-    let duplicateUserCheck = await User.findOne({email})
+    let duplicateUserCheck = await User.findOne({ email });
 
-    if(duplicateUserCheck){
-      return responseService.sent(res, 409, [], 'User already exists!')
+    if (duplicateUserCheck) {
+      return responseService.sent(res, 409, [], "User already exists!");
     }
 
     let hashedPassword = await hashPassword(password);
@@ -30,6 +31,7 @@ const create = async (req, res) => {
       password: hashedPassword,
       email,
       isAdmin,
+      userImage,
     });
 
     await user.save();
