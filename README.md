@@ -8,9 +8,9 @@
 - middleware folder for authentication
 - sample env file provided
 - can provide postman collection if required
-- to start the server is development mode:
-``` yarn install```
-``` yarn run start:dev```
+- to start the server in development mode:
+```  yarn install  ```
+```  yarn run start:dev  ```
 
 ## Functionality
 
