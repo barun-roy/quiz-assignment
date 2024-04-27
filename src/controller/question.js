@@ -1,3 +1,5 @@
+const fs = require("fs");
+const csvParser = require("csv-parser");
 const ResponseService = require("../common/response.service");
 const { Category, Question } = require("../model");
 
@@ -63,6 +65,63 @@ const create = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
+
+const bulkUploadQuestions = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: "No CSV file uploaded" });
+    }
+
+    const csvFilePath = req.file.path;
+    const questions = [];
+
+    let categories = await Category.find({}).select("name");
+    let catObj = {};
+    categories.forEach((item) => {
+      catObj[item.name] = item["_id"];
+    });
+
+    // Read the CSV file, parse its contents, and push questions to the array
+    fs.createReadStream(csvFilePath)
+      .pipe(csvParser())
+      .on("data", (row) => {
+        // Assuming each row in the CSV file represents a question with text and categories
+        let rowCatArr = [];
+        row.categories.split(", ").map((item) => {
+          rowCatArr.push(catObj[item]);
+        });
+        questions.push({
+          text: row[Object.keys(row)[0]],
+          categories: rowCatArr,
+        });
+      })
+      .on("end", async () => {
+        // Insert questions into the database
+
+        await Question.insertMany(questions);
+
+        // Delete the uploaded CSV file after processing
+        fs.unlinkSync(csvFilePath);
+
+        return responseService.sent(
+          res,
+          201,
+          [],
+          "Questions added successfully"
+        );
+      });
+  } catch (error) {
+    console.log("error in importing the questions..............", error);
+    return responseService.sent(res, 500, [], error.message);
+  }
+};
+
 // Function to get category IDs based on category names
 async function getCategoryIds(categoryNames) {
   let categoryIds = [];
@@ -71,4 +130,4 @@ async function getCategoryIds(categoryNames) {
   return categoryIds;
 }
 
-module.exports = { create };
+module.exports = { create, bulkUploadQuestions };
