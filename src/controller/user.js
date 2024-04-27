@@ -16,14 +16,17 @@ const create = async (req, res) => {
   try {
     const { firstName, lastName, email, password, isAdmin } = req.body;
 
-    let userName = `${firstName.toLowerCase()}_${lastName.toLowerCase()}`;
+    let duplicateUserCheck = await User.findOne({email})
+
+    if(duplicateUserCheck){
+      return responseService.sent(res, 409, [], 'User already exists!')
+    }
 
     let hashedPassword = await hashPassword(password);
 
     const user = new User({
       firstName,
       lastName,
-      userName,
       password: hashedPassword,
       email,
       isAdmin,
@@ -87,7 +90,7 @@ const login = async (req, res) => {
 const profile = async (req, res) => {
   try {
     const user = await User.findById(req.user.userId).select(
-      "firstName lastName userName email -_id"
+      "firstName lastName email userImage -_id"
     );
     if (!user) {
       return responseService.sent(res, 404, [], "User not found!");
@@ -99,8 +102,31 @@ const profile = async (req, res) => {
   }
 };
 
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
+
+const updateProfile = async (req, res) => {
+  try {
+    let userId = req.user.userId;
+    let updateBody = { ...req.body };
+    if (req.file) {
+      updateBody["userImage"] = req.file.filename;
+    }
+    await User.updateOne({ _id: userId }, updateBody, { upsert: true });
+    return responseService.sent(res, 200, [], "Profile updated successfully!");
+  } catch (error) {
+    console.log("update profile error..........", error);
+    return responseService.sent(res, 500, [], error.message);
+  }
+};
+
 module.exports = {
   create,
   login,
   profile,
+  updateProfile,
 };

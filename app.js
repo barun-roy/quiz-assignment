@@ -5,6 +5,7 @@ dotenv.config().parsed;
 const ServerError = require("./src/utils/serverError");
 const errorHandler = require("./src/controller/error");
 const userRouter = require("./src/routes/user");
+const multer = require("multer");
 
 const app = express();
 
