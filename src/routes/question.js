@@ -1,9 +1,11 @@
-const fs = require('fs')
+const fs = require("fs");
 const express = require("express");
 const multer = require("multer");
-const { create, login, profile, updateProfile } = require("../controller/user");
 const { authMiddleware } = require("../middleware/auth");
+const { create } = require("../controller/question");
 
-const router = express.Router()
+const router = express.Router();
 
-module.exports = router
+router.post("/create", authMiddleware, create);
+
+module.exports = router;

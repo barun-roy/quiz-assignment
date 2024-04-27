@@ -1,5 +1,5 @@
 const ResponseService = require("../common/response.service");
-const { Category } = require("../model");
+const { Category, Question } = require("../model");
 
 const responseService = new ResponseService();
 
@@ -26,10 +26,10 @@ const create = async (req, res) => {
 };
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
- * @returns 
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns
  */
 
 const getCategories = async (req, res) => {
@@ -42,4 +42,55 @@ const getCategories = async (req, res) => {
   }
 };
 
-module.exports = { create,getCategories };
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
+
+const getQuestionsForEachCategory = async (req, res) => {
+  try {
+    let categoryName = req.params.categoryName || null;
+
+    let categoryNameArr = [];
+
+    let condition = [
+      {
+        $lookup: {
+          from: "questions",
+          localField: "_id",
+          foreignField: "categories",
+          as: "questions",
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          description: 1,
+          questions: {
+            $map: {
+              input: "$questions",
+              as: "question",
+              in: { text: "$$question.text" },
+            },
+          },
+        },
+      },
+    ];
+
+    if (categoryName) {
+      categoryNameArr = categoryName.split(",");
+      condition.unshift({ $match: { name: { $in: categoryNameArr } } });
+    }
+
+    const categoriesWithQuestions = await Category.aggregate(condition);
+
+    return responseService.sent(res, 200, categoriesWithQuestions);
+  } catch (error) {
+    console.log("getQuestionsForEachCategory error..............", error);
+    return responseService.sent(res, 500, [], error.message);
+  }
+};
+
+module.exports = { create, getCategories, getQuestionsForEachCategory };
