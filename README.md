@@ -23,7 +23,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstName\": \"Jane\",\r\n    \"lastName\":\"Doe\",\r\n    \"email\": \"janeDoe@example.com\",\r\n    \"password\": \"password\",\r\n    \"userImage\": \"profile_images/jane_smith.jpg\",\r\n    \"isAdmin\": false\r\n  }",
+					"raw": "{\r\n    \"firstName\": \"Jane\",\r\n    \"lastName\":\"Doe\",\r\n    \"email\": \"janeDoe@example.com\",\r\n    \"password\": \"password\",\r\n    \"isAdmin\": false\r\n  }",
 					"options": {
 						"raw": {
 							"language": "json"
