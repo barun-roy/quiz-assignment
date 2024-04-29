@@ -24,6 +24,26 @@ const create = async (req, res) => {
     return responseService.sent(res, 500, [], error.message);
   }
 };
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
+
+const bulkInsertCategory = async (req, res) => {
+  try {
+    const categories = req.body;
+    if (!Array.isArray(categories) || categories.length === 0) {
+      return responseService.sent(res, 400, [], "No categories provided");
+    }
+    const insertedCategories = await Category.insertMany(categories);
+    return responseService.sent(res, 200, insertedCategories, "Categories created successfully");
+  } catch (error) {
+    console.log("Bulk insert category error:", error);
+    return responseService.sent(res, 500, [], error.message);
+  }
+};
 
 /**
  *
@@ -93,4 +113,4 @@ const getQuestionsForEachCategory = async (req, res) => {
   }
 };
 
-module.exports = { create, getCategories, getQuestionsForEachCategory };
+module.exports = { create,bulkInsertCategory, getCategories, getQuestionsForEachCategory };

@@ -14,7 +14,7 @@ const responseService = new ResponseService();
 
 const create = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, isAdmin, userImage } =
+    const { firstName, lastName, email, password, isAdmin } =
       req.body;
 
     let duplicateUserCheck = await User.findOne({ email });
@@ -31,7 +31,6 @@ const create = async (req, res) => {
       password: hashedPassword,
       email,
       isAdmin,
-      userImage,
     });
 
     await user.save();

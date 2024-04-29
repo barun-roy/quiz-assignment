@@ -4,11 +4,13 @@ const {
   create,
   getCategories,
   getQuestionsForEachCategory,
+  bulkInsertCategory,
 } = require("../controller/category");
 
 const router = express.Router();
 
-router.post("/create", create);
+router.post("/create", authMiddleware, create);
+router.post("/bulkInsertCategory", authMiddleware, bulkInsertCategory);
 
 router.get("/getAll", authMiddleware, getCategories);
 router.get(

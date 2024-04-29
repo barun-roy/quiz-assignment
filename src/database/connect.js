@@ -2,10 +2,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config().parsed;
 
-const DATABASE = process.env.DATABASE.replace(
-  "<PASSWORD>",
-  process.env.DATABASE_PASSWORD
-);
+const DATABASE = 'mongodb://localhost:27017/quizApp'
 
 mongoose
   .connect(DATABASE)

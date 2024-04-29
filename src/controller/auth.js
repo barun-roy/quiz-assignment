@@ -7,7 +7,7 @@ const signToken = (res, user) => {
   try {
     const token = jwt.sign(
       { userId: user._id, email: user.email, isAdmin: user.isAdmin },
-      process.env.JWT_SECRET,
+      '0fb46e81c559d1f94cfaf4c5d3c0912e',
       { expiresIn: "1h" }
     );
     return token;
