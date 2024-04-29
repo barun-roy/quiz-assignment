@@ -30,7 +30,7 @@
 						}
 					}
 				},
-				"url": "http://localhost:3000/api/v1/user/create"
+				"url": "http://localhost:4001/api/v1/user/create"
 			},
 			"response": []
 		}
@@ -51,7 +51,7 @@
 						}
 					}
 				},
-				"url": "http://localhost:3000/api/v1/user/login"
+				"url": "http://localhost:4001/api/v1/user/login"
 			},
 			"response": []
 		}
@@ -76,7 +76,7 @@
 						"disabled": true
 					}
 				],
-				"url": "http://localhost:3000/api/v1/user/profile"
+				"url": "http://localhost:4001/api/v1/user/profile"
 			},
 			"response": []
 		}
@@ -122,7 +122,7 @@
 						}
 					]
 				},
-				"url": "http://localhost:3000/api/v1/user/updateProfile"
+				"url": "http://localhost:4001/api/v1/user/updateProfile"
 			},
 			"response": []
 		}
@@ -142,7 +142,7 @@
 				},
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:3000/api/v1/category/getAll"
+				"url": "http://localhost:4001/api/v1/category/getAll"
 			},
 			"response": []
 		}
@@ -160,7 +160,7 @@
 				},
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:3000/api/v1/category/questions/"
+				"url": "http://localhost:4001/api/v1/category/questions/"
 			},
 			"response": []
 		}
